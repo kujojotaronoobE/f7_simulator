@@ -149,6 +149,38 @@
             90% { opacity: 1; }
             100% { opacity: 0; }
         }
+        .counter {
+            font-family: "Minecraft", Arial, sans-serif;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 18px;
+            z-index: 10;
+        }
+        #necronHandleCounter {
+            top: 10px;
+            left: 10px;
+        }
+        #chestOpenedCounter {
+            top: 40px;
+            left: 10px;
+        }
+        #implosionCounter {
+            top: 70px;
+            left: 10px;
+        }
+        #shadowWarpCounter {
+            top: 100px;
+            left: 10px;
+        }
+        #witherShieldCounter {
+            top: 130px;
+            left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -159,8 +191,19 @@
         <div id="lootDisplay"></div>
     </div>
     <div class="congrats-message" id="congratsMessage"></div>
+    <div id="necronHandleCounter" class="counter">Necron's Handle: 0</div>
+    <div id="chestOpenedCounter" class="counter">Chest Opened: 0</div>
+    <div id="implosionCounter" class="counter">Implosion: 0</div>
+    <div id="shadowWarpCounter" class="counter">Shadow Warp: 0</div>
+    <div id="witherShieldCounter" class="counter">Wither Shield: 0</div>
 
     <script>
+        let necronHandleCount = 0;
+        let chestOpenedCount = 0;
+        let implosionCount = 0;
+        let shadowWarpCount = 0;
+        let witherShieldCount = 0;
+
         const lootTable = [
             { name: "Auto Recombulator", chance: 0.89, value: 10000000, image: "auto-recomb.png", rarity: "legendary" },
             { name: "Fuming Potato Book", chance: 5.85, value: 2000000, image: "fuming-potato.png", rarity: "epic" },
@@ -205,8 +248,16 @@
                 const lootContainer = document.getElementById('lootContainer');
                 const lootDisplay = document.getElementById('lootDisplay');
                 const congratsMessage = document.getElementById('congratsMessage');
+                const necronHandleCounter = document.getElementById('necronHandleCounter');
+                const chestOpenedCounter = document.getElementById('chestOpenedCounter');
+                const implosionCounter = document.getElementById('implosionCounter');
+                const shadowWarpCounter = document.getElementById('shadowWarpCounter');
+                const witherShieldCounter = document.getElementById('witherShieldCounter');
                 chest.classList.add('hidden');
                 lootContainer.classList.add('visible');
+
+                chestOpenedCount++;
+                chestOpenedCounter.textContent = `Chest Opened: ${chestOpenedCount}`;
 
                 let lootResults = [];
                 for (let i = 0; i < 4; i++) {
@@ -244,8 +295,22 @@
                 lootDisplay.innerHTML = lootHTML;
 
                 if (lootResults.some(item => item.name === "Necron's Handle")) {
+                    necronHandleCount++;
+                    necronHandleCounter.textContent = `Necron's Handle: ${necronHandleCount}`;
                     congratsMessage.textContent = "Necron Handle!!\nCongrats u hv no life!";
                     congratsMessage.classList.add('visible');
+                }
+                if (lootResults.some(item => item.name === "Implosion")) {
+                    implosionCount++;
+                    implosionCounter.textContent = `Implosion: ${implosionCount}`;
+                }
+                if (lootResults.some(item => item.name === "Shadow Warp")) {
+                    shadowWarpCount++;
+                    shadowWarpCounter.textContent = `Shadow Warp: ${shadowWarpCount}`;
+                }
+                if (lootResults.some(item => item.name === "Wither Shield")) {
+                    witherShieldCount++;
+                    witherShieldCounter.textContent = `Wither Shield: ${witherShieldCount}`;
                 }
                 chestVisible = false;
             }
